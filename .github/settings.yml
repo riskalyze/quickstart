@@ -1,0 +1,8 @@
+repository:
+  name: quickstart
+  description: Start here to configure your laptop for development at Riskalyze
+  private: false
+
+teams:
+  - name: infrastructure
+    permission: push
