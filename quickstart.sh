@@ -31,4 +31,4 @@ if ! command -v cast &>/dev/null; then
   tar -xzvf /tmp/"${CAST_TARBALL}" -C /usr/local/bin cast
 fi
 
-echo "✨ Success! You are now ready to finish setting things up. Please run $(cast system install) to continue."
+echo "✨ Success! You are now ready to finish setting things up. Please run 'cast system install' to continue."
