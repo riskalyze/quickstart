@@ -21,7 +21,7 @@ echo "🙌 Wonderful! GitHub is all set."
 echo "🪄 Next, let's install Cast (Riskalyze's multi-purpose dev tool)."
 
 if ! command -v cast &>/dev/null; then
-  brew tap riskalyze/homebrew-taps
+  brew tap riskalyze/cast git@github.com:riskalyze/cast
   brew install cast
 fi
 
