@@ -3,14 +3,21 @@
 ARCH=$(uname -m | sed 's/x86_64/amd64/')
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-echo "👋 Welcome! This script takes care of first-time setup of your computer."
-echo "🏁 First, let's make sure Homebrew is installed."
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+bold() {
+  echo "${bold}$1${normal}"
+}
+
+bold "👋 Welcome! This script takes care of first-time setup of your computer."
+bold "🏁 First, let's make sure Homebrew is installed."
 
 if ! command -v brew &>/dev/null; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-echo "🍺 Great! Now, let's set up your GitHub account."
+bold "🍺 Great! Now, let's set up your GitHub account."
 
 brew bundle --quiet --no-upgrade --file=- <<-EOF
 brew "fetch"
@@ -23,8 +30,8 @@ if ! gh auth status &>/dev/null; then
   gh auth login -w
 fi
 
-echo "🙌 Wonderful! GitHub is all set."
-echo "🧙 Next, let's install Cast (Riskalyze's multi-purpose dev tool)."
+bold "🙌 Wonderful! GitHub is all set."
+bold "🧙 Next, let's install Cast (Riskalyze's multi-purpose dev tool)."
 
 if ! command -v cast &>/dev/null; then
   GITHUB_OAUTH_TOKEN=$(gh auth status -t 2> >(grep -oh 'gho.*'))
@@ -33,4 +40,4 @@ if ! command -v cast &>/dev/null; then
   tar -xzvf /tmp/"${CAST_TARBALL}" -C /usr/local/bin cast
 fi
 
-echo "✨ Success! You are now ready to finish setting things up. Please run 'cast system install' to continue."
+bold "✨ Success! You are now ready to finish setting things up. Please run 'cast system install' to continue."
