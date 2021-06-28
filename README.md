@@ -7,5 +7,5 @@ Start here to configure your laptop for development at Riskalyze!
 Paste this in a terminal and hit enter:
 
 ```shell
-curl -s https://raw.githubusercontent.com/riskalyze/quickstart/main/quickstart.sh | bash
+bash -c "$(curl -s https://raw.githubusercontent.com/riskalyze/quickstart/main/quickstart.sh)"
 ```
