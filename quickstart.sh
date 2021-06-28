@@ -12,17 +12,19 @@ fi
 
 echo "🍺 Great! Now, let's set up your GitHub account."
 
-brew bundle --no-upgrade --file=- <<-EOF
+brew bundle --quiet --no-upgrade --file=- <<-EOF
 brew "fetch"
 brew "gh"
 EOF
 
 if ! gh auth status &>/dev/null; then
+  unset GITHUB_TOKEN
+  unset GITHUB_OAUTH_TOKEN
   gh auth login -w
 fi
 
 echo "🙌 Wonderful! GitHub is all set."
-echo "🪄 Next, let's install Cast (Riskalyze's multi-purpose dev tool)."
+echo "🧙 Next, let's install Cast (Riskalyze's multi-purpose dev tool)."
 
 if ! command -v cast &>/dev/null; then
   GITHUB_OAUTH_TOKEN=$(gh auth status -t 2> >(grep -oh 'gho.*'))
