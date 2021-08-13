@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Bail out immediately if something fails
+set -eo pipefail
+
 ARCH=$(uname -m | sed 's/x86_64/amd64/')
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
@@ -9,6 +12,15 @@ normal=$(tput sgr0)
 bold() {
   echo "${bold}$1${normal}"
 }
+
+# Print a friendly message if something fails
+function exit_handler {
+  ret=$?
+  if [ $ret -ne 0 ]; then
+    bold "💔 Sorry, something didn't work right. Please report this problem in an Infrastructure request: https://riskalyze.atlassian.net/servicedesk/customer/portal/3/group/16/create/11112"
+  fi
+}
+trap exit_handler EXIT
 
 bold "👋 Welcome! This script takes care of first-time setup of your computer."
 bold "🏁 First, let's make sure Homebrew is installed."
