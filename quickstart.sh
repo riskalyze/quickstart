@@ -44,11 +44,9 @@ fi
 bold "🙌 Wonderful! GitHub is all set."
 bold "🧙 Next, let's install Cast (Riskalyze's multi-purpose dev tool)."
 
-if ! command -v cast &>/dev/null; then
-  GITHUB_OAUTH_TOKEN=$(gh auth status -t 2> >(grep -oh 'gho.*'))
-  CAST_TARBALL="cast_${OS}_${ARCH}.tar.gz"
-  fetch --log-level warn --repo https://github.com/riskalyze/cast --tag "~>1.0" --release-asset="${CAST_TARBALL}" --github-oauth-token "${GITHUB_OAUTH_TOKEN}" /tmp
-  tar -xzf /tmp/"${CAST_TARBALL}" -C /usr/local/bin cast
-fi
+GITHUB_OAUTH_TOKEN=$(gh auth status -t 2> >(grep -oh 'gho.*'))
+CAST_TARBALL="cast_${OS}_${ARCH}.tar.gz"
+fetch --log-level warn --repo https://github.com/riskalyze/cast --tag "~>1.0" --release-asset="${CAST_TARBALL}" --github-oauth-token "${GITHUB_OAUTH_TOKEN}" /tmp
+tar -xzf /tmp/"${CAST_TARBALL}" -C /usr/local/bin cast
 
 bold "✨ Success! You are now ready to finish setting things up. Please run 'cast system install' to continue."
