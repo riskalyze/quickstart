@@ -47,14 +47,14 @@ if [ ! -d /usr/local/bin ]; then
   sudo chown -R "$(whoami):admin" /usr/local/bin
 fi
 
-(curl -sfSOL "https://github.com/gruntwork-io/fetch/releases/download/v0.4.2/fetch_darwin_${arch}") &
+(curl -o /tmp/fetch -sfSL "https://github.com/gruntwork-io/fetch/releases/download/v0.4.2/fetch_darwin_${arch}") &
 spinner $!
-install "fetch_darwin_${arch}" /usr/local/bin/fetch
+install /tmp/fetch /usr/local/bin/fetch
 
 (fetch --log-level warn --repo https://github.com/cli/cli --tag "~>1.0" --release-asset="gh_.*_macOS_${arch}.tar.gz" /tmp) &
 spinner $!
-tar -xzf /tmp/gh_*_macOS_"${arch}".tar.gz -C /tmp
-install /tmp/gh_*_macOS_"${arch}"/bin/gh /usr/local/bin/gh
+tar -xzf /tmp/gh_*_macOS_"${arch}".tar.gz --strip-components 2 -C /tmp
+install /tmp/gh /usr/local/bin/gh
 
 echo "🎉 Great! Now, let's set up your GitHub account."
 
