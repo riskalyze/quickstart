@@ -42,8 +42,9 @@ bold "👋 Welcome! This script takes care of first-time setup of your computer.
 echo "🏁 First, let's install a couple of dependencies."
 
 if [ ! -d /usr/local/bin ]; then
+  bold "📁 We need to create a /usr/local/bin folder. Please enter your password when prompted."
   sudo mkdir -p /usr/local/bin
-  sudo chown -R `whoami` /usr/local/bin
+  sudo chown -R "$(whoami):admin" /usr/local/bin
 fi
 
 (curl -sfSOL "https://github.com/gruntwork-io/fetch/releases/download/v0.4.2/fetch_darwin_${arch}") &
