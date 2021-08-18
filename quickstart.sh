@@ -45,6 +45,7 @@ echo "🧙 Next, let's install Cast (Riskalyze's multi-purpose dev tool)."
 github_token=$(gh auth status -t 2> >(grep -oh 'gho.*'))
 cast_gh_tarball="cast_darwin_${arch}.tar.gz"
 fetch --log-level warn --repo https://github.com/riskalyze/cast --tag "~>1.0" --release-asset="${cast_gh_tarball}" --github-oauth-token "${github_token}" /tmp
-tar -xzf "/tmp/${cast_gh_tarball}" -C /usr/local/bin cast
+tar -xzf "/tmp/${cast_gh_tarball}" -C /tmp
+install /tmp/cast /usr/local/bin/cast
 
 bold "✨  Success! You are now ready to finish setting things up. Please run 'cast system install' to continue."
