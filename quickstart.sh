@@ -3,8 +3,7 @@
 # Bail out immediately if something fails
 set -eo pipefail
 
-ARCH=$(uname -m | sed 's/x86_64/amd64/')
-OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+arch=$(uname -m | sed 's/x86_64/amd64/')
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -23,18 +22,16 @@ function exit_handler {
 trap exit_handler EXIT
 
 bold "👋 Welcome! This script takes care of first-time setup of your computer."
-bold "🏁 First, let's make sure Homebrew is installed."
+bold "🏁 First, we'll install a couple of dependencies."
 
-if ! command -v brew &>/dev/null; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+curl -sSOL "https://github.com/gruntwork-io/fetch/releases/download/v0.4.2/fetch_darwin_${arch}"
+install "fetch_darwin_${arch}" /usr/local/bin/fetch
 
-bold "🍺 Great! Now, let's set up your GitHub account."
+fetch --log-level warn --repo https://github.com/cli/cli --tag "~>1.0" --release-asset="gh_.*_macOS_${arch}.tar.gz" /tmp
+tar -xzf /tmp/gh_*_macOS_"${arch}".tar.gz -C /tmp
+install /tmp/gh_*_macOS_"${arch}"/bin/gh /usr/local/bin/gh
 
-brew bundle --quiet --no-upgrade --file=- <<-EOF
-brew "fetch"
-brew "gh"
-EOF
+bold "🎉 Great! Now, let's set up your GitHub account."
 
 if ! gh auth status &>/dev/null; then
   unset GITHUB_TOKEN
@@ -42,13 +39,11 @@ if ! gh auth status &>/dev/null; then
 fi
 
 bold "🙌 Wonderful! GitHub is all set."
-bold "🧙 Next, let's install Cast (Riskalyze's multi-purpose dev tool)."
+bold "🧙 Next, we'll install Cast (Riskalyze's multi-purpose dev tool)."
 
-if ! command -v cast &>/dev/null; then
-  GITHUB_OAUTH_TOKEN=$(gh auth status -t 2> >(grep -oh 'gho.*'))
-  CAST_TARBALL="cast_${OS}_${ARCH}.tar.gz"
-  fetch --log-level warn --repo https://github.com/riskalyze/cast --tag "~>1.0" --release-asset="${CAST_TARBALL}" --github-oauth-token "${GITHUB_OAUTH_TOKEN}" /tmp
-  tar -xzf /tmp/"${CAST_TARBALL}" -C /usr/local/bin cast
-fi
+github_token=$(gh auth status -t 2> >(grep -oh 'gho.*'))
+cast_gh_tarball="cast_darwin_${arch}.tar.gz"
+fetch --log-level warn --repo https://github.com/riskalyze/cast --tag "~>1.0" --release-asset="${cast_gh_tarball}" --github-oauth-token "${github_token}" /tmp
+tar -xzf "/tmp/${cast_gh_tarball}" -C /usr/local/bin cast
 
 bold "✨ Success! You are now ready to finish setting things up. Please run 'cast system install' to continue."
