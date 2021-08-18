@@ -41,6 +41,7 @@ trap exit_handler EXIT
 bold "👋 Welcome! This script takes care of first-time setup of your computer."
 echo "🏁 First, let's install a couple of dependencies."
 
+mkdir -p /usr/local/bin
 (curl -sfSOL "https://github.com/gruntwork-io/fetch/releases/download/v0.4.2/fetch_darwin_${arch}") &
 spinner $!
 install "fetch_darwin_${arch}" /usr/local/bin/fetch
