@@ -60,7 +60,7 @@ echo "🎉 Great! Now, let's set up your GitHub account."
 
 if ! gh auth status &>/dev/null; then
   unset GITHUB_TOKEN
-  gh auth login -w
+  gh auth login -s admin:public_key -w
 fi
 
 echo "🙌 Wonderful! GitHub is all set."
