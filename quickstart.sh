@@ -42,8 +42,12 @@ bold "👋 Welcome! This script takes care of first-time setup of your computer.
 echo "🏁 First, let's install a couple of dependencies."
 
 if [ ! -d /usr/local/bin ]; then
-  bold "📁 We need to create a /usr/local/bin folder. Please enter your password when prompted."
+  bold "📁 We need to create a /usr/local/bin folder. Please enter your password if prompted."
   sudo mkdir -p /usr/local/bin
+fi
+
+if [ ! -O /usr/local/bin ]; then
+  bold "📁 We need to update permissions for /usr/local/bin. Please enter your password if prompted."
   sudo chown -R "$(whoami):admin" /usr/local/bin
 fi
 
@@ -60,7 +64,7 @@ echo "🎉 Great! Now, let's set up your GitHub account."
 
 if ! gh auth status &>/dev/null; then
   unset GITHUB_TOKEN
-  gh auth login -s admin:public_key -w
+  gh auth login -s admin:public_key,read:packages -w
 fi
 
 echo "🙌 Wonderful! GitHub is all set."
