@@ -42,8 +42,12 @@ bold "👋 Welcome! This script takes care of first-time setup of your computer.
 echo "🏁 First, let's install a couple of dependencies."
 
 if [ ! -d /usr/local/bin ]; then
-  bold "📁 We need to create a /usr/local/bin folder. Please enter your password when prompted."
+  bold "📁 We need to create a /usr/local/bin folder. Please enter your password if prompted."
   sudo mkdir -p /usr/local/bin
+fi
+
+if [ ! -O /usr/local/bin ]; then
+  bold "📁 We need to update permissions for /usr/local/bin. Please enter your password if prompted."
   sudo chown -R "$(whoami):admin" /usr/local/bin
 fi
 
