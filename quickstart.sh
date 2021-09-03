@@ -55,16 +55,16 @@ fi
 spinner $!
 install /tmp/fetch /usr/local/bin/fetch
 
-(fetch --log-level warn --repo https://github.com/cli/cli --tag "~>1.0" --release-asset="gh_.*_macOS_${arch}.tar.gz" /tmp) &
+(fetch --log-level warn --repo https://github.com/cli/cli --tag "~>2.0" --release-asset="gh_.*_macOS_amd64.tar.gz" /tmp) &
 spinner $!
-tar -xzf /tmp/gh_*_macOS_"${arch}".tar.gz --strip-components 2 -C /tmp
+tar -xzf /tmp/gh_*_macOS_amd64.tar.gz --strip-components 2 -C /tmp
 install /tmp/gh /usr/local/bin/gh
 
 echo "🎉 Great! Now, let's set up your GitHub account."
 
 if ! gh auth status &>/dev/null; then
   unset GITHUB_TOKEN
-  gh auth login -w
+  gh auth login -s admin:public_key -w
 fi
 
 echo "🙌 Wonderful! GitHub is all set."
