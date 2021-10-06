@@ -40,6 +40,9 @@ function exit_handler {
 }
 trap exit_handler EXIT
 
+unset GITHUB_OAUTH_TOKEN
+unset GITHUB_TOKEN
+
 bold "👋 Welcome! This script takes care of first-time setup of your computer."
 echo "🏁 First, let's install a couple of dependencies."
 
@@ -70,7 +73,6 @@ echo "🎉 Great! Now, let's set up your GitHub account."
 # Check the user's GitHub CLI auth status.
 if ! gh auth status &>/dev/null; then
   # User is logged out or has never logged in before; we need to login.
-  unset GITHUB_TOKEN
   gh auth login -s admin:public_key,read:packages -w
 fi
 
