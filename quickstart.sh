@@ -78,6 +78,12 @@ fi
 
 # Fetch the user's PAT and validate its scopes.
 github_token=$(gh auth status -t 2> >(grep -oh 'gho.*'))
+
+if [ ! $github_token ]; then
+  gh auth refresh -s admin:public_key,read:packages
+  github_token=$(gh auth status -t 2> >(grep -oh 'gho.*'))
+fi
+
 scopes=$(curl --silent --location --request GET https://api.github.com --header "Authorization: token $github_token" --head | grep "x-oauth-scopes: ")
 for s in "admin:public_key" "gist" "read:org" "read:packages" "repo"; do
   if [[ ! $scopes =~ $s ]]; then
