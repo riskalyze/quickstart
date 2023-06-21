@@ -63,7 +63,7 @@ spinner $!
 install /tmp/fetch /usr/local/bin/fetch
 
 # Install the GitHub CLI.
-(fetch --log-level warn --repo https://github.com/cli/cli --tag "~>2.0" --release-asset="gh_.*_macOS_amd64.zip" /tmp) &
+(fetch --log-level warn --repo https://github.com/cli/cli --tag "~>2.0" --release-asset="gh_.*_macOS_${arch}.zip" /tmp) &
 spinner $!
 tar -xzf /tmp/gh_*_macOS_amd64.zip --strip-components 2 -C /tmp
 install /tmp/gh /usr/local/bin/gh
