@@ -99,7 +99,7 @@ echo "🧙 Next, let's install Cast (Riskalyze's multi-purpose dev tool)."
 
 # Download and install Cast from the private GitHub repo.
 cast_gh_tarball="cast_darwin_${arch}.tar.gz"
-(fetch --log-level warn --repo https://github.com/riskalyze/cast --tag "~>1.0" --release-asset="${cast_gh_tarball}" --github-oauth-token "${github_token}" /tmp) &
+(fetch --log-level warn --repo https://github.com/riskalyze/cast --tag "~>2.0" --release-asset="${cast_gh_tarball}" --github-oauth-token "${github_token}" /tmp) &
 spinner $!
 tar -xzf "/tmp/${cast_gh_tarball}" -C /tmp
 install /tmp/cast /usr/local/bin/cast
