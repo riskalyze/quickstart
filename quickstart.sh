@@ -3,7 +3,7 @@
 # Bail out immediately if something fails
 set -eo pipefail
 
-arch=$(uname -m | sed 's/x86_64/amd64/')
+arch=$(uname -m | sed 's/x86_64/amd64/g')
 
 # Prints text in bold.
 bold() {
