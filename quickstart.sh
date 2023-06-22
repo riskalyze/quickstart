@@ -77,7 +77,7 @@ if ! gh auth status &>/dev/null; then
 fi
 
 # Fetch the user's PAT and validate its scopes.
-github_token=$(gh auth status -t 2> >(grep -oh 'gho.*'))
+github_token=$(gh auth token)
 
 if [ ! $github_token ]; then
   gh auth refresh -s admin:public_key,read:packages
