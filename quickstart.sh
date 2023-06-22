@@ -81,7 +81,7 @@ github_token=$(gh auth token)
 
 if [ ! $github_token ]; then
   gh auth refresh -s admin:public_key,read:packages
-  github_token=$(gh auth status -t 2> >(grep -oh 'gho.*'))
+  github_token=$(gh auth token)
 fi
 
 scopes=$(curl --silent --location --request GET https://api.github.com --header "Authorization: token $github_token" --head | grep "x-oauth-scopes: ")
