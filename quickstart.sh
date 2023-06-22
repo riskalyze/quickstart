@@ -89,7 +89,7 @@ for s in "admin:public_key" "gist" "read:org" "read:packages" "repo"; do
   if [[ ! $scopes =~ $s ]]; then
     # User is logged in but doesn't have all the right scopes; we need to refresh their token.
     gh auth refresh -s admin:public_key,read:packages
-    github_token=$(gh auth status -t 2> >(grep -oh 'gho.*'))
+    github_token=$(gh auth token)
     break
   fi
 done
