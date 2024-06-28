@@ -58,12 +58,12 @@ if [ ! -O /usr/local/bin ]; then
 fi
 
 # Install fetch so we can grab Github CLI and Cast from GitHub.
-(curl -o /tmp/fetch -sfSL "https://github.com/gruntwork-io/fetch/releases/download/v0.4.2/fetch_darwin_${arch}") &
+(curl -o /tmp/fetch -sfSL "https://github.com/gruntwork-io/fetch/releases/download/v0.4.6/fetch_darwin_${arch}") &
 spinner $!
 install /tmp/fetch /usr/local/bin/fetch
 
 # Install the GitHub CLI.
-(fetch --log-level warn --repo https://github.com/cli/cli --tag "~>2.0" --release-asset="gh_.*_macOS_${arch}.zip" /tmp) &
+(fetch --log-level warn --repo https://github.com/cli/cli --tag "~>2.52" --release-asset="gh_.*_macOS_${arch}.zip" /tmp) &
 spinner $!
 tar -xzf /tmp/gh_*_macOS_${arch}.zip --strip-components 2 -C /tmp
 install /tmp/gh /usr/local/bin/gh
@@ -73,26 +73,20 @@ echo "🎉 Great! Now, let's set up your GitHub account."
 # Check the user's GitHub CLI auth status.
 if ! gh auth status &>/dev/null; then
   # User is logged out or has never logged in before; we need to login.
-  gh auth login -s admin:public_key,read:packages -w
+  gh auth login -s admin:public_key,read:packages -w -p ssh
+else
+  gh_auth_status=$(gh auth status)
+  for s in "admin:public_key" "gist" "read:org" "read:packages" "repo"; do
+    if [[ ! $gh_auth_status =~ $s ]]; then
+      # User is logged in but doesn't have all the right scopes; we need to refresh their token.
+      gh auth refresh -s admin:public_key,read:packages
+      github_token=$(gh auth token)
+      break
+    fi
+  done
 fi
 
-# Fetch the user's PAT and validate its scopes.
 github_token=$(gh auth token)
-
-if [ ! $github_token ]; then
-  gh auth refresh -s admin:public_key,read:packages
-  github_token=$(gh auth token)
-fi
-
-scopes=$(curl --silent --location --request GET https://api.github.com --header "Authorization: token $github_token" --head | grep "x-oauth-scopes: ")
-for s in "admin:public_key" "gist" "read:org" "read:packages" "repo"; do
-  if [[ ! $scopes =~ $s ]]; then
-    # User is logged in but doesn't have all the right scopes; we need to refresh their token.
-    gh auth refresh -s admin:public_key,read:packages
-    github_token=$(gh auth token)
-    break
-  fi
-done
 
 echo "🙌 Wonderful! GitHub is all set."
 echo "🧙 Next, let's install Cast (Riskalyze's multi-purpose dev tool)."
