@@ -44,7 +44,6 @@ unset GITHUB_OAUTH_TOKEN
 unset GITHUB_TOKEN
 
 bold "👋 Welcome! This script takes care of first-time setup of your computer."
-echo "🏁 First, let's install a couple of dependencies."
 
 # Make sure /usr/local/bin exists and has the correct permissions.
 if [ ! -d /usr/local/bin ]; then
@@ -57,16 +56,10 @@ if [ ! -O /usr/local/bin ]; then
   sudo chown -R "$(whoami):admin" /usr/local/bin
 fi
 
-# Install fetch so we can grab Github CLI and Cast from GitHub.
-(curl -o /tmp/fetch -sfSL "https://github.com/gruntwork-io/fetch/releases/download/v0.4.6/fetch_darwin_${arch}") &
+# Install a few utilities
+echo "⚙️  Installing dependencies."
+(HOMEBREW_NO_ENV_HINTS=true brew install --quiet --formula fetch gh) &
 spinner $!
-install /tmp/fetch /usr/local/bin/fetch
-
-# Install the GitHub CLI.
-(fetch --log-level warn --repo https://github.com/cli/cli --tag "~>2.52" --release-asset="gh_.*_macOS_${arch}.zip" /tmp) &
-spinner $!
-tar -xzf /tmp/gh_*_macOS_${arch}.zip --strip-components 2 -C /tmp
-install /tmp/gh /usr/local/bin/gh
 
 echo "🎉 Great! Now, let's set up your GitHub account."
 
