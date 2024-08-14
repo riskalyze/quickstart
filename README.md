@@ -1,6 +1,6 @@
 # Quickstart
 
-Start here to configure your laptop for development at Riskalyze!
+Start here to configure your laptop for development at Nitrogen!
 
 ## Instructions
 
