@@ -4,5 +4,5 @@ repository:
   private: false
 
 teams:
-  - name: infrastructure
+  - name: solo
     permission: push
