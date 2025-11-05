@@ -4,5 +4,9 @@ repository:
   private: false
 
 teams:
+  - name: ackbar
+    permission: push
+  - name: codeowners
+    permission: push
   - name: solo
     permission: push
