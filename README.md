@@ -14,7 +14,7 @@ The script installs [Homebrew](https://brew.sh) if it isn't already installed.
 Paste this in a terminal and hit enter:
 
 ```shell
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/riskalyze/quickstart/main/quickstart.sh)"
+qs="$(mktemp)" && curl -fsSL https://raw.githubusercontent.com/riskalyze/quickstart/main/quickstart.sh -o "$qs" && bash "$qs"
 ```
 
 When it finishes, run `cast system install` to finish configuring your system.
