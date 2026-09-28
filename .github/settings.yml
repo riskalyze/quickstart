@@ -1,8 +1,12 @@
 repository:
   name: quickstart
-  description: Start here to configure your laptop for development at Riskalyze
+  description: Start here to configure your laptop for development at Nitrogen
   private: false
 
 teams:
+  - name: ackbar
+    permission: push
+  - name: codeowners
+    permission: push
   - name: solo
     permission: push
